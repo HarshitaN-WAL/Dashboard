@@ -33,7 +33,7 @@
   <!-- End of delete users -->
   
   <!-- Pivotal Tracker for new -->
-  <%if @action = "new"%>
+  <%if @action%>
    <%= f.input :project_token, label:"Project Id", required: true%>
    <%= f.input :pt_token, label:"Owner API Token", required: true%>
   <%end%>

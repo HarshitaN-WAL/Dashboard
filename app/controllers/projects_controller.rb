@@ -7,8 +7,23 @@ class ProjectsController < ApplicationController
     	authorize @project
 		@user_list = User.includes(:role).group_by(&:rolename)
 		@roles=@user_list.keys
-	    @action = "new"
+	  @action = "new"
 	end
+
+  def create
+     @project = Project.new(project_params)
+    if @project.save && save_project_user
+        flash[:success] = "Project was successfully created"
+        redirect_to project_path(@project)
+    else
+      flash.now[:error] = "Project was not created"
+      @user_list = User.includes(:role).group_by(&:rolename)
+      @roles = @user_list.keys
+      @action = "new"
+      render 'new'
+    end
+        # redirect_to project_path(@project)
+  end
 
 	def index
 		if session[:user_id]
@@ -28,50 +43,34 @@ class ProjectsController < ApplicationController
 		@user_list = User.includes(:role).group_by(&:rolename)
 		@roles=@user_list.keys
 		@role_users = User.includes(:project_users).where(project_users:{project_id:@project.id, active: 1}).group_by(&:rolename)
-	end
-
-	def create
-		# render plain: params[:project].inspect
-
-		 @project = Project.new(project_params)
-     byebug
-  	if @project.save && save_project_user
-  		 	flash[:success] = "Project was successfully created"
-  			redirect_to project_path(@project)
-    else
-      flash.now[:error] = "Project was not created"
-      @user_list = User.includes(:role).group_by(&:rolename)
-      @roles = @user_list.keys
-      @action = "new"
-  		render 'new'
-  	end
-  			# redirect_to project_path(@project)
-	end
-
-	def destroy
-		@project.destroy
-		flash[:notice] = "Project deleted"
-		redirect_to projects_path
-	end
+    #specifying the action is not new
+    @action = !check_pivotal_tracker
+  end
 
 	def update
 		if @project.update (project_params)
+      byebug
 			@working_users = User.includes(:project_users).where(project_users:{project_id:@project.id, active: 1}).pluck(:id)
 			save_project_user if params[:user_id].map(&:to_i) - @working_users
 			delete_user if @working_users - params[:user_id].map(&:to_i)
-			flash[:success
-      ] = "Project was updated successfully"
+			flash[:success] = "Project was updated successfully"      
 			redirect_to project_path(@project)
 		else
 			render 'edit'
 		end
 	end
 
+  def destroy
+    @project.destroy
+    flash[:notice] = "Project deleted"
+    redirect_to projects_path
+  end
+
 	def show
 		# @users=@project.users.pluck(:username).join(',')
 		@users_list = @project.users.where(project_users:{active: 1}).group_by(&:rolename)
 		@roles = @users_list.keys
-	    if check_project_token
+	    if check_pivotal_tracker
 			@bugs = ProjectService.new.stats(@project)
 		else
 	      @count_bugs = 0
@@ -87,7 +86,6 @@ class ProjectsController < ApplicationController
 
 	def find_project
 		@project = Project.includes(users: :role).find(params[:id])
-		# @project=Project.find(params[:id])
 	end
 
 	def delete_user
@@ -110,17 +108,20 @@ class ProjectsController < ApplicationController
 		else
 			@user = params[:user_id] 
 		end
-		p @user
 		@user.each do |i|
-		@project_user = @project.project_users.create!(user_id: i, active: 1)
-
+  		@project_user = @project.project_users.create!(user_id: i, active: 1)
 		end
 	end
 
 	# To check if the project has id in PT
+  def check_pt_token
+      @project.pt_token != "" && @project.pt_token != nil
+  end
 	def check_project_token
 		@project.project_token != "" && @project.project_token != nil
 	end
-
-
+  def check_pivotal_tracker
+      check_pt_token && check_project_token
+  end
+  #end of private methods 
 end

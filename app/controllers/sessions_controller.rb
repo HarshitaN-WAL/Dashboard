@@ -10,6 +10,7 @@ class SessionsController < ApplicationController
         if user && user.authenticate(params[:session][:password])
             cookies.signed[:user_id] = user.id
             session[:user_id] = user.id
+            @role = user.rolename
             flash[:success] = "You have logged in successfully"
            
             redirect_to projects_path
