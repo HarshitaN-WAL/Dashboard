@@ -1,0 +1,42 @@
+<h1>Showing selected project</h1>
+
+<p>
+   Name: <%= @project.name%>
+</p>
+
+<p>
+  Start Date: <%= @project.start_date %>
+</p>
+
+<p>
+  Expected Deadline Date: <%= @project.expected_target_date %>
+</p>
+
+<p>
+    <!-- Project Users:<%=@project.users.map(&:username)%> -->
+  Project Users:<%@roles.each do|r|%>
+    <br>
+    <%=r%>
+    <%@users_list[r].each do |user|%>
+      <%=link_to user.username ,user_path(user)%>
+    <%end%>
+  <%end%>
+  <br>
+  <!-- Number of bugs:<%=@count_bugs%> -->
+  <br>
+  <!-- Number of closed issues: <%=@closed_issues%> -->
+  <% if @project.pt_token%>
+  <%= pie_chart(@bugs) %>
+  <%end%>
+</p>
+<%#= link_to 'Chat Room', chatroom_index_path(:project_id => @project.id)%>
+<br>
+<%= link_to 'Back to all projects', projects_path %>
+<!-- SELECT *
+FROM users
+FULL OUTER JOIN project_users ON users.id=project_users.user_id
+WHERE users.id NOT IN
+    (SELECT distinct(user_id)
+     FROM project_users
+     WHERE project_id=2) -->
+

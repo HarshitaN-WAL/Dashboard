@@ -1,0 +1,47 @@
+<%= simple_form_for @project do |f| %>
+  <%= f.input :name, label: 'Project Name',required: true %>
+  <br>
+  <%= f.input :start_date, error: 'Start date is mandatory, please specify one' %>
+  <br>
+  <%= f.input :expected_target_date %>
+  <br>
+
+  <!-- Roles -->
+  <% @roles.each do |r|%>
+    <%=f.label :role, r %>
+    <!-- if Edit Action -->
+    <%if @role_users%>
+      <%if @role_users[r]%>
+        <%=select_tag "user_id", options_from_collection_for_select(@user_list[r],"id","username",@role_users[r].pluck(:id)), multiple: true, class: 'multiselectuser' %>
+      <%else%>
+        <%=select_tag "user_id", options_from_collection_for_select(@user_list[r],"id","username"), multiple: true, class: 'multiselectuser' %>
+      <%end%>
+    <!-- if New Action -->
+    <%else%>
+      <%=select_tag "user_id", options_from_collection_for_select(@user_list[r],"id","username"), multiple: true, class: 'multiselectuser' %>
+    <%end%>
+    <br>
+  <%end%>
+  <!-- End of Roles -->
+
+  <!-- Make changes remove delete -->
+  <% #if @working_users%>
+    <%#= f.label :'Delete users' %>
+    <%#= select_tag "delete_id", options_from_collection_for_select(@working_users,"id","username"), multiple: true%>
+    <br>
+  <%#end%>
+  <!-- End of delete users -->
+  
+  <!-- Pivotal Tracker for new -->
+  <%if @action = "new"%>
+   <%= f.input :project_token, label:"Project Id", required: true%>
+   <%= f.input :pt_token, label:"Owner API Token", required: true%>
+  <%end%>
+
+  <!-- Create Button -->
+  <%= f.button :submit , class:"btn btn-primary"%>
+<% end %>
+<br>
+<p>
+  <%= link_to 'Back to all projects', projects_path, class:"btn btn-primary" %>
+</p>

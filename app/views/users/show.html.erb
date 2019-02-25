@@ -1,0 +1,18 @@
+<h1>Showing selected User</h1>
+<div class="avatar">
+<%= image_tag @user.avatar%>
+</div>
+<p>
+    Name:<%= @user.username%>
+
+</p>
+<p>
+    Email:<%= @user.email%>
+
+</p>
+<p>
+    Role:<%= @role%>
+</p>
+<%if current_user.top_management?%>
+<%= link_to 'Back to all Users', users_path %>
+<%end%>

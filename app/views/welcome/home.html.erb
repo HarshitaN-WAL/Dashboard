@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Home</title>
+  <style>
+    body
+    {
+      /*background-color: lightblue;*/
+     
+      /*background-repeat: no-repeat;*/
+      /*background-size: 100%*/
+    }
+  </style>
+</head>
+<body class="login img-fluid">
+<!-- <img src='/assets/images/pm.png' alt='Welcome'>  -->
+  <!-- <div class="center img-fluid"> -->
+    <%#=link_to "Sign Up", signup_path%>
+    <div  class = "parent-div">
+    <div class=" center rotate-button">
+      <h1 class="display-4">Keep Track!</h1>
+      <!-- <a class="" href="#" role="button">Learn more</a> -->
+      <%= link_to "Sign Up", signup_path, class:"btn btn-primary btn-lg"%>
+    </div>
+    </div>
+    <%#= image_tag("pm.png", :alt => "Welcome Image" , class: "img-responsive", size: "600") %>
+  <!-- </div> -->
+</body>
+</html>

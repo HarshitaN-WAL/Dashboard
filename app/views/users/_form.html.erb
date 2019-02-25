@@ -1,0 +1,25 @@
+<%=simple_form_for @user do |u| %>
+  <%=u.input :username, label: 'User Name' , required: true %>
+  <br>
+  <%=u.input :email, label: 'User Email' , required: true %>
+  <br>
+  <%=u.input :password, label: 'Password', required: true%>
+  <br>
+  <%= u.label :avatar, "Avatar"%>
+  <%= u.file_field :avatar %>
+  <br>
+  <%=u.select :role_id,Role.all.collect{|r| [r.rolename,r.id]}%>
+  <br>
+  <%if @user.new_record?%>
+    <div class="btn btn-primary btn-lg">
+      <%= u.button :submit %>
+      <%else%>
+      <%= u.button :submit, "Update" %>
+    </div>
+  <%end%>
+<%end%>
+<%if session[:user_id]%>
+  <p>
+      <%= link_to 'Back to all users', users_path, class:"btn btn-primary btn-lg" %>
+  </p>
+<%end%>

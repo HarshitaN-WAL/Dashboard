@@ -1,0 +1,20 @@
+<h1>The list of projects</h1>
+<br>
+<table class="table">
+  <thead>
+    <tr>
+        <th>Role Id</th>
+        <th>Role Name</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <%@roles.each do |r|%>
+    <tr>
+       <td><%=r.id%></td>
+       <td><%=r.rolename%></td>
+       <td><%= link_to 'Edit', edit_role_path(r) %></td>
+    </tr>
+    <%end%>
+
+</table>
+<%= link_to 'Create new Roel', new_role_path , class:"btn btn-primary"%>
