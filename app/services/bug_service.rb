@@ -11,7 +11,8 @@ class BugService
     @started_bugs =  fetch_stories(state: 'started').count
     # @total_issues = fetch_client.stories(with_story_type: 'bug').count
     @rejected_bugs = fetch_stories(state: 'rejected').count
-    [@unstarted_bugs, @closed_bugs, @started_bugs, @rejected_bugs]
+    # [@unstarted_bugs, @closed_bugs, @started_bugs, @rejected_bugs]
+    { unstarted_bugs: @unstarted_bugs, closed_bugs: @closed_bugs, started_bugs: @started_bugs, rejected_bugs: @rejected_bugs}
   end
 
   def fetch_client

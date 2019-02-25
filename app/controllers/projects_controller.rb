@@ -71,7 +71,7 @@ class ProjectsController < ApplicationController
 		@users_list = @project.users.where(project_users:{active: 1}).group_by(&:rolename)
 		@roles = @users_list.keys
 	    if check_pivotal_tracker
-			@bugs = ProjectService.new.stats(@project)
+			@bugs = PivotalTrackerJob.perform_now @project.id
 		else
 	      @count_bugs = 0
     end
