@@ -66,17 +66,19 @@ class ProjectsController < ApplicationController
     redirect_to projects_path
   end
 
-	def show
-		# @users=@project.users.pluck(:username).join(',')
-		@users_list = @project.users.where(project_users:{active: 1}).group_by(&:rolename)
-		@roles = @users_list.keys
-	    if check_pivotal_tracker
-			@bugs = PivotalTrackerJob.perform_now @project.id
-		else
-	      @count_bugs = 0
+  def show
+  	# @users=@project.users.pluck(:username).join(',')
+  	@users_list = @project.users.where(project_users:{active: 1}).group_by(&:rolename)
+  	@roles = @users_list.keys
+    if check_pivotal_tracker
+  		@bugs = PivotalTrackerJob.perform_now @project.id
+  	else
+        @count_bugs = 0
     end
-    # @number_of_developer = @users.group_by(&:rolename)["Developer"].length 
-	end
+    @message = Message.new
+    @messages = Message.all
+  # @number_of_developer = @users.group_by(&:rolename)["Developer"].length 
+  end
 
 	private
 

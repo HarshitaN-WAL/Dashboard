@@ -1,11 +1,13 @@
 class Project < ApplicationRecord
 	has_many :project_users, dependent: :destroy
 	has_many :users, through: :project_users
+	has_many :messages, as: :messageable
+	
 	validates :name, presence: true, length: {minimum: 3, maximum: 50}
 	validates :start_date, presence: true, length: {is:10}
 	validates :expected_target_date, presence: true
-  validates :pt_token, presence: true
-  validates :project_token, presence: true
+  	validates :pt_token, presence: true
+  	validates :project_token, presence: true
 	validate :validate_end_date
 
 	scope :not_started, -> { where('start_date > ?', Time.now.to_date) }

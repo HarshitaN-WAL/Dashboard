@@ -5,7 +5,7 @@ class User < ApplicationRecord
 	has_many :messages
 	has_many :project_users, dependent: :destroy
 	has_many :projects , through: :project_users
-
+	has_many :messages, as: :messageable
 	before_save {self.email=email.downcase}
 	validates :username, presence: true, uniqueness: {case_sensitive: false}
 	VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i

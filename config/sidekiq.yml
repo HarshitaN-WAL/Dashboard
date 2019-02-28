@@ -1,0 +1,8 @@
+:verbose: false
+:concurrency: 5
+:queues:
+  - default
+staging:
+  :concurrency: 10
+production:
+  :concurrency: 20

@@ -1,3 +1,4 @@
+require 'sidekiq/web'
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :projects
@@ -7,6 +8,7 @@ Rails.application.routes.draw do
   resources :chatroom, only: [:index]
   # resources :sessions, only: [:new, :create]
   mount ActionCable.server, at: '/cable'
+  mount Sidekiq::Web , at: '/sidekiq'
   # root 'projects#index'
   root 'welcome#home'
   get 'welcome/about', to:'welcome#about'

@@ -1,3 +1,4 @@
+
 <h1>Showing selected project</h1>
 
 <p>
@@ -26,12 +27,46 @@
   <br>
   <!-- Number of closed issues: <%=@closed_issues%> -->
   <% if @project.pt_token%>
-  <%= pie_chart(@bugs) %>
+  <div class="pie-chart">  
+    <%= pie_chart(@bugs) %>
+  </div>
   <%end%>
 </p>
 <%#= link_to 'Chat Room', chatroom_index_path(:project_id => @project.id)%>
 <br>
+<div align="right">
+  <div>
+    <%= form_for(@message,html: { class:"form-horizontal",role:"form"}, url:message_path(project_id: @project.id), remote: true) do |f| %>
+      <%=f.text_field :body, class:"form-control"%>
+      <%=f.submit "Post", class:"btn btn-primary"%>
+    <%end%>
+  </div>
+  <div id="message-container-project">
+    <%= render @messages%>
+  </div>
+</div>
+<!-- Chat div end -->
+<!-- Link for projects index page -->
 <%= link_to 'Back to all projects', projects_path %>
+
+<!-- javascript for channel -->
+<script type="text/javascript">
+  (function() {
+  App.cable.subscriptions.create({
+    channel: "ProjectChannel",
+    project_id: <%= @project.id %>
+  }, {
+    connected: function() {},
+    disconnected: function() {},
+    received: function(data) {
+      debugger
+      $('#message-container-project').append(data.message_sent)
+    }
+  });
+
+}).call(this);
+</script>
+
 <!-- SELECT *
 FROM users
 FULL OUTER JOIN project_users ON users.id=project_users.user_id
