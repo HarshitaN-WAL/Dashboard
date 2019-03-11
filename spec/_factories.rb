@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :user do
-    username {"harshita"}
-    email {"hars@gmail.com"}
-    password {"hasrhita"}
-    role_id {4}
-    
+    username { 'harshita' }
+    email { 'hars@gmail.com' }
+    password { 'hasrhita' }
+    role_id { 4 }
+
     association :role
   end
 end

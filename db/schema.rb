@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_28_103441) do
+ActiveRecord::Schema.define(version: 2019_03_11_004944) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,8 @@ ActiveRecord::Schema.define(version: 2019_02_28_103441) do
     t.date "expected_target_date"
     t.string "project_token"
     t.string "pt_token"
+    t.string "github_slug"
+    t.string "quality_token"
   end
 
   create_table "roles", force: :cascade do |t|

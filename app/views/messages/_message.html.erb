@@ -1,2 +1,2 @@
 
-<p><%=current_user&.username%>:<%= message.body%></p>
+<p><%=User.find(message.user_id).username%>:<%= message.body%></p>

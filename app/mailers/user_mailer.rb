@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class UserMailer < ApplicationMailer
   default from: 'PMTOOL'
- 
+
   def welcome_email(user)
     @user = user
     @url  = 'http://localhost:3000'

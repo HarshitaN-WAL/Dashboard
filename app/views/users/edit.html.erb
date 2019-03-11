@@ -1,2 +1,2 @@
-<h1>Showing selected project</h1>
-<%= render 'form'%>
+<%= render partial: "form", locals: {zone: @user, url: { :action => "update" } } %>
+<%#= render 'form', locals: {zone: @user, url: { :action => "update" } }%>

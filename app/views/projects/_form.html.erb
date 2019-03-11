@@ -1,47 +1,105 @@
-<%= simple_form_for @project do |f| %>
-  <%= f.input :name, label: 'Project Name',required: true %>
-  <br>
-  <%= f.input :start_date, error: 'Start date is mandatory, please specify one' %>
-  <br>
-  <%= f.input :expected_target_date %>
-  <br>
+<div class="card offset-3 col-6 ">
+  <div class="card-body">
+    <%=form_for @project do |f| %>
+    <div class='form-group row' align="center">
+        <div class='control-label col-form-label col-sm-4'>
+          <%= f.label :name, "Project Name"%>
+        </div>
+        <div class='col-sm-6'>
+          <%= f.text_field :name, required: true, class: "form-control" %>
+        </div>
+    </div>
+    <div class='form-group row' align="center">
+      <div class='control-label col-form-label col-sm-4'>
+        <%= f.label :start_date, "Start Date" %>
+      </div>
+      <div class='col-sm-6'>
+        <%= f.date_field :start_date, error: 'Start date is mandatory, please specify one', class: 'form-control' %>
+      </div>
+    </div>
+    <div class='form-group row' align="center">
+      <div class='control-label col-form-label col-sm-4'>
+        <%= f.label :expected_target_date, "Expected End Date" %>
+      </div>
+      <div class='col-sm-6'>
+        <%= f.date_field :expected_target_date, class: 'form-control' %>
+      </div>
+    </div> 
+      <!-- Roles -->
+      <% @roles.each do |r|%>
+      <div class='form-group row'>
+        <div class='control-label col-form-label col-sm-4'>
+          <%=f.label :role, r %>
+        </div>
 
-  <!-- Roles -->
-  <% @roles.each do |r|%>
-    <%=f.label :role, r %>
-    <!-- if Edit Action -->
-    <%if @role_users%>
-      <%if @role_users[r]%>
-        <%=select_tag "user_id", options_from_collection_for_select(@user_list[r],"id","username",@role_users[r].pluck(:id)), multiple: true, class: 'multiselectuser' %>
-      <%else%>
-        <%=select_tag "user_id", options_from_collection_for_select(@user_list[r],"id","username"), multiple: true, class: 'multiselectuser' %>
+        <!-- if Edit Action -->
+        <%if @role_users%>
+          <%if @role_users[r]%>
+            <%=select_tag "user_id", options_from_collection_for_select(@user_list[r],"id","username",@role_users[r].pluck(:id)), multiple: true, class: 'multiselectuser form-control' %>
+          <%else%>
+            <%=select_tag "user_id", options_from_collection_for_select(@user_list[r],"id","username"), multiple: true, class: 'multiselectuser form-control' %>
+          <%end%>
+        <!-- if New Action -->
+        <%else%>
+          <%=select_tag "user_id", options_from_collection_for_select(@user_list[r],"id","username"), multiple: true, class: 'multiselectuser form-control' %>
+        <%end%>
+        <br>
+      </div>
       <%end%>
-    <!-- if New Action -->
-    <%else%>
-      <%=select_tag "user_id", options_from_collection_for_select(@user_list[r],"id","username"), multiple: true, class: 'multiselectuser' %>
-    <%end%>
-    <br>
-  <%end%>
-  <!-- End of Roles -->
+      <!-- End of Roles -->
 
-  <!-- Make changes remove delete -->
-  <% #if @working_users%>
-    <%#= f.label :'Delete users' %>
-    <%#= select_tag "delete_id", options_from_collection_for_select(@working_users,"id","username"), multiple: true%>
-    <br>
-  <%#end%>
-  <!-- End of delete users -->
-  
-  <!-- Pivotal Tracker for new -->
-  <%if @action%>
-   <%= f.input :project_token, label:"Project Id", required: true%>
-   <%= f.input :pt_token, label:"Owner API Token", required: true%>
-  <%end%>
+      <!-- Make changes remove delete -->
+      <%#if @working_users%>
+        <%#= f.label :'Delete users' %>
+        <%#= select_tag "delete_id", options_from_collection_for_select(@working_users,"id","username"), multiple: true%>
+        <br>
+      <%#end%>
+      <!-- End of delete users -->
+      
+      <!-- Pivotal Tracker for new -->
+      <%if @action%>
+      <div class='form-group row' align="center">
+        <div class='control-label col-form-label col-sm-4'>
+          <%= f.label :project_token, "Project Id"%>
+        </div>
+        <div class='col-sm-6'>
+         <%= f.text_field :project_token, required: true, class: 'form-control'%>
+       </div>
+      </div>
+      <div class='form-group row' align="center">
+          <div class='control-label col-form-label col-sm-4'>
+            <%= f.label :pt_token, "Owner API Token"%>
+          </div>
+          <div class='col-sm-6'>
+            <%= f.text_field :pt_token, required: true, class: 'form-control' %>
+          </div>
+      </div>
+      <div class='form-group row' align="center">
+        <div class='control-label col-form-label col-sm-4'>
+          <%= f.label :quality_token, "Code Climate Token"%>
+        </div>
+        <div class='col-sm-4'>
+         <%= f.text_field :quality_token, required: true, class: 'form-control'%>
+       </div>
+      </div>
+      <div class='form-group row' align="center">
+          <div class='control-label col-form-label col-sm-4'>
+            <%= f.label :github_slug, "Github Slug"%>
+          </div>
+          <div class='col-sm-6'>
+            <%= f.text_field :github_slug, required: true, class: 'form-control' %>
+          </div>
+      </div>
+      <%end%>
 
-  <!-- Create Button -->
-  <%= f.button :submit , class:"btn btn-primary"%>
-<% end %>
+      <!-- Create Button -->
+      <div align="center">
+        <%= f.submit "Create New Project" , class:"btn btn-primary"%>
+      </div>
+    <% end %>
+  </div>
+</div>
 <br>
 <p>
-  <%= link_to 'Back to all projects', projects_path, class:"btn btn-primary" %>
+  <%#= link_to 'Back to all projects', projects_path, class:"btn btn-primary" %>
 </p>

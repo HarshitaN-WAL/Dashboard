@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApplicationCable
   class Connection < ActionCable::Connection::Base
     identified_by :current_user
@@ -11,7 +13,8 @@ module ApplicationCable
     def find_verified_user
       user = User.find(cookies.signed[:user_id])
       return user if user
-      fail 'User needs to be authenticated.'
+
+      raise 'User needs to be authenticated.'
     end
   end
 end

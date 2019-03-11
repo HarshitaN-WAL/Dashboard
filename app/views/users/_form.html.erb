@@ -1,25 +1,65 @@
-<%=simple_form_for @user do |u| %>
-  <%=u.input :username, label: 'User Name' , required: true %>
-  <br>
-  <%=u.input :email, label: 'User Email' , required: true %>
-  <br>
-  <%=u.input :password, label: 'Password', required: true%>
-  <br>
-  <%= u.label :avatar, "Avatar"%>
-  <%= u.file_field :avatar %>
-  <br>
-  <%=u.select :role_id,Role.all.collect{|r| [r.rolename,r.id]}%>
-  <br>
-  <%if @user.new_record?%>
-    <div class="btn btn-primary btn-lg">
-      <%= u.button :submit %>
-      <%else%>
-      <%= u.button :submit, "Update" %>
+<div class="card offset-3 col-6 ">
+  <div class="card-body">
+    <%=form_for zone, url: url do |u| %>
+    <div class='form-group row' align="center">
+        <div class='control-label col-form-label col-sm-2'>
+          <%=u.label :username%>
+        </div>
+        <div class='col-sm-8'>
+          <%=u.text_field :username, required: true, class: "form-control" %>
+        </div>
     </div>
-  <%end%>
-<%end%>
-<%if session[:user_id]%>
-  <p>
-      <%= link_to 'Back to all users', users_path, class:"btn btn-primary btn-lg" %>
-  </p>
-<%end%>
+      <br>
+      <div class='form-group row' align="center">
+        <div class='control-label col-sm-2 col-form-label'>
+          <%=u.label  :email%>
+        </div>
+        <div class='col-sm-8'>
+          <%=u.text_field :email, required: true, class: "form-control" %>
+        </div>
+      </div>
+      <br>
+      <div class='form-group row' align="center">
+        <div class='control-label col-sm-2 col-form-label'>
+          <%=u.label  :password%>
+        </div>
+        <div class='col-sm-8'>
+          <%=u.password_field :password, required: true, class: "form-control"%>
+        </div>
+      </div>
+      <br>
+      <div class='form-group row' align="center">
+        <div class='control-label col-sm-2 col-form-label'>
+          <%= u.label :avatar, "Avatar"%>
+        </div>
+        <% if @user.avatar.attached?%>
+        <div class="avatar col-sm-2">
+          <%= image_tag @user.avatar%>
+        </div>
+        <%end%>
+        <div class='col-sm-6'>
+          <%= u.file_field :avatar, class: "form-control-file" %>
+        </div>  
+      </div>
+      <br>
+      <div class='form-group row' align="center">
+        <div class='control-label col-sm-2 col-form-label'>
+          <%= u.label :role, "Role"%>
+        </div>
+        <div class='col-sm-8'>
+          <%=u.select :role_id,Role.all.collect{|r| [r.rolename,r.id]}, required: true, class: "form-control"%>
+        </div>
+      </div>
+      <br>
+      <!-- <div class="form-group row" align="right"> -->
+        <div align="rigth">
+          <%if @user.new_record?%>
+              <%= u.submit "Submit", class:"btn btn-primary"%>
+              <%else%>
+              <%= u.submit "Update" %>
+          <%end%>
+        </div>
+    <!-- </div> -->
+    <%end%>
+  </div>
+</div>

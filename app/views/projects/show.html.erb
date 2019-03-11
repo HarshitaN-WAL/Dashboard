@@ -1,53 +1,62 @@
+<div class="split left">
+  <div class="show-box">
+    <p>
+      Name: <%= @project.name%>
+    </p>
 
-<h1>Showing selected project</h1>
+    <p>
+      Start Date: <%= @project.start_date %>
+    </p>
 
-<p>
-   Name: <%= @project.name%>
-</p>
+    <p>
+      Expected Deadline Date: <%= @project.expected_target_date %>
+    </p>
 
-<p>
-  Start Date: <%= @project.start_date %>
-</p>
-
-<p>
-  Expected Deadline Date: <%= @project.expected_target_date %>
-</p>
-
-<p>
-    <!-- Project Users:<%=@project.users.map(&:username)%> -->
-  Project Users:<%@roles.each do|r|%>
+    <p>
+      Project Users:<%@roles.each do|r|%>
+        <br>
+        <%= r%>
+        <%@users_list[r].each do |user|%>
+          <%=link_to user.username ,user_path(user)%>
+        <%end%>
+      <%end%>
+      <br>
+    </p>
+    <% if !@image_url.nil?%>
+      <p>Code Quality Badge:
+      <%= image_tag @image_url %>
+      </p>
+    <%end%>
     <br>
-    <%=r%>
-    <%@users_list[r].each do |user|%>
-      <%=link_to user.username ,user_path(user)%>
-    <%end%>
-  <%end%>
-  <br>
-  <!-- Number of bugs:<%=@count_bugs%> -->
-  <br>
-  <!-- Number of closed issues: <%=@closed_issues%> -->
-  <% if @project.pt_token%>
-  <div class="pie-chart">  
-    <%= pie_chart(@bugs) %>
-  </div>
-  <%end%>
-</p>
-<%#= link_to 'Chat Room', chatroom_index_path(:project_id => @project.id)%>
-<br>
-<div align="right">
-  <div>
-    <%= form_for(@message,html: { class:"form-horizontal",role:"form"}, url:message_path(project_id: @project.id), remote: true) do |f| %>
-      <%=f.text_field :body, class:"form-control"%>
-      <%=f.submit "Post", class:"btn btn-primary"%>
-    <%end%>
-  </div>
-  <div id="message-container-project">
-    <%= render @messages%>
+  <%#= link_to 'Back to all projects', projects_path %>
   </div>
 </div>
-<!-- Chat div end -->
+
+<div class="split right">
+  <% if @project.pt_token%>
+    <div class="pie-chart">  
+      <%= pie_chart(@bugs) %>
+    </div>
+  <%end%>
+  <br>
+  <div align="left">
+    <button class="open-button" id="chat-button" onclick="openForm()">Chat</button>
+    <div class="chat-popup" id="myForm">
+      <div class="form-container">
+        <div id="message-container-project">
+          <%= render @messages%>
+        </div>
+        <%= form_for(@message,html: { class:"form-horizontal ",role:"form"}, url:message_path(project_id: @project.id), remote: true) do |f| %>
+          <%=f.text_field :body, class:"form-control"%>
+          <%=f.submit "Post", class:"btn btn-primary" %>
+          <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+        <%end%>
+      </div> 
+    </div>
+  </div>
+</div>
 <!-- Link for projects index page -->
-<%= link_to 'Back to all projects', projects_path %>
+
 
 <!-- javascript for channel -->
 <script type="text/javascript">
@@ -59,12 +68,25 @@
     connected: function() {},
     disconnected: function() {},
     received: function(data) {
-      debugger
-      $('#message-container-project').append(data.message_sent)
+      $('#message_body').val("");
+      $('#message-container-project').append(data.message_sent);
+      $("#message-container-project").scrollTop($("#message-container-project")[0].scrollHeight);
+      
     }
   });
 
 }).call(this);
+  function openForm() {
+  document.getElementById('chat-button').style.display = "none";
+  document.getElementById("myForm").style.display = "block";
+}
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+  document.getElementById('chat-button').style.display = "block";
+}
+function post() {
+
+}
 </script>
 
 <!-- SELECT *

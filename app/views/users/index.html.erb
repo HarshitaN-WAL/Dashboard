@@ -1,5 +1,7 @@
 <h1>The list of users</h1>
+<div align="right">
 <%=link_to 'Create new User' , new_user_path%>
+</div>
 <table class="table">
     <tr>
       <th>
@@ -18,7 +20,7 @@
         Actions
       </th>    
     </tr>
-    <%@user.each do |user|%>
+    <%@users.each do |user|%>
       <tr>
         <td><%=user.id%></td>
         <td><%=user.username%></td>
@@ -30,4 +32,6 @@
       </tr>
     <%end%>
 </table>
-<%=link_to 'Back to all projects' , projects_path%>
+<div class="pagination">
+  <%= paginate @users%>
+</div>
