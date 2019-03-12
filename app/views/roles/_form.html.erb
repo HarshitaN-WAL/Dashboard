@@ -1,4 +1,15 @@
-<%=simple_form_for @role do |f|%>
-  <%=f.input :rolename, label:"Role Name" , required: true%>
-  <%=f.button :submit%>
-<%end%>
+<div class="card offset-3 col-6 ">
+  <div class="card-body">
+    <%=form_for @role do |f|%>
+      <div class='form-group row' align="center">
+        <div class='control-label col-form-label col-sm-4'>
+          <%= f.label :rolename, "Role Name"%>
+        </div>
+        <div class='col-sm-6'>
+          <%= f.text_field :rolename, required: true, class: "form-control" %>
+        </div>
+      </div>
+      <%=f.submit "Create Role", class:"btn btn-primary", align:"center"  %>
+    <%end%>
+  </div>
+</div>

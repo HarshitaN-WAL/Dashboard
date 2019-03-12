@@ -34,7 +34,7 @@ class ProjectsController < ApplicationController
 
   def edit
     @project = Project.find(params[:id])
-    @user_list = User.includes(:role).group_by(&:rolename)
+    @user_list = User.includes(:role).group_by(&:rolename).reject {|k| k=="Admin"}
     @roles = @user_list.keys
     users = user_includes.where(project_users: { project_id: @project.id, active: 1 })
     @role_users = users.group_by(&:rolename)
@@ -96,15 +96,17 @@ class ProjectsController < ApplicationController
   end
 
   def save_project_user
-    if @working_users
-      @update_users = @project.project_users.pluck(:user_id) - @working_users
-      @user = params[:user_id].map(&:to_i) - @working_users - @update_users
-      user_activate
-    else
-      @user = params[:user_id]
-    end
-    @user.each do |i|
-      @project_user = @project.project_users.create!(user_id: i, active: 1)
+    if params[:user_id]
+      if @working_users
+        @update_users = @project.project_users.pluck(:user_id) - @working_users
+        @user = params[:user_id].map(&:to_i) - @working_users - @update_users
+        user_activate
+      else
+        @user = params[:user_id]
+      end
+      @user.each do |i|
+        @project_user = @project.project_users.create!(user_id: i, active: 1)
+      end
     end
   end
 
@@ -133,7 +135,7 @@ class ProjectsController < ApplicationController
   end
 
   def users_roles
-    @user_list = User.includes(:role).group_by(&:rolename)
+    @user_list = User.includes(:role).group_by(&:rolename).reject {|k| k=="Admin"}
     @roles = @user_list.keys
     @action = 'new'
   end

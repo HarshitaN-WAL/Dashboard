@@ -4,6 +4,7 @@ class RolesController < ApplicationController
   before_action :find_role, only: [:update]
   def new
     @role = Role.new
+    authorize @role
   end
 
   def create
@@ -18,8 +19,8 @@ class RolesController < ApplicationController
 
   def index
     @roles = Role.all
-    @user = User.find(session[:user_id])
-    authorize @user
+    # @user = User.find(session[:user_id])
+    authorize @roles
   end
 
   def edit

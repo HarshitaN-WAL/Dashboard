@@ -10,7 +10,11 @@ class SessionsController < ApplicationController
     redirect_to(signup_path) && return if @user.nil?
     if @user&.authenticate(params[:session][:password])
       log_user
-      redirect_to projects_path
+      if @user.rolename == "Admin"
+        redirect_to roles_path
+      else
+        redirect_to projects_path
+      end
     else
       flash.now[:danger] = 'Something is wrong in your login'
       render 'new'
