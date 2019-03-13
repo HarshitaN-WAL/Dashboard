@@ -24,11 +24,11 @@ class ProjectsController < ApplicationController
 
   def index
       @role = User.find(session[:user_id]).rolename
-      if @role != 'Top Management'
-        user_id = session[:user_id]
-        @project = Project.includes(users: :role).where(users: { id: user_id }).page params[:page]
-      else
+      if @role == 'Top Management' || @role == 'Admin'
         @project = Project.all.page params[:page]
+      else
+        user_id = session[:user_id]
+        @project = Project.includes(users: :role).where(users: { id: user_id }).page params[:page]   
       end
   end
 

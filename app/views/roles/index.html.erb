@@ -5,16 +5,19 @@
     <tr>
         <th>Role Id</th>
         <th>Role Name</th>
-        <th>Action</th>
+        <th colspan="2" align="center">Actions</th>
     </tr>
     </thead>
     <%@roles.each do |r|%>
     <tr>
-       <td><%=r.id%></td>
-       <td><%=r.rolename%></td>
-       <td><%= link_to 'Edit', edit_role_path(r) %></td>
+      <td><%=r.id%></td>
+      <td><%=r.rolename%></td>
+      <td><%= link_to 'Edit', edit_role_path(r) %></td>
+      <td><%= link_to 'Destroy', role_path(r) , method: :delete , data:{confirm:"are you sure?"} %></td>
     </tr>
     <%end%>
 
 </table>
-<%= link_to 'Create new Role', new_role_path , class:"btn btn-primary"%>
+<div class= 'create-new-button'>
+<%= link_to 'Create new Role', new_role_path , class:"btn btn-primary create-project btn-lg"%>
+</div>

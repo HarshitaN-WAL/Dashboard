@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class RolesController < ApplicationController
-  before_action :find_role, only: [:update]
+  before_action :find_role, only: %i[show update destroy]
   def new
     @role = Role.new
     authorize @role
@@ -29,11 +29,17 @@ class RolesController < ApplicationController
 
   def update
     if @role.update role_params
-      flash[:notice] = 'Role was updated successfully'
+      flash[:success] = 'Role was updated successfully'
       redirect_to roles_path
     else
       render 'edit'
     end
+  end
+
+  def destroy
+    @role.destroy
+    flash[:error] = 'Role deleted'
+    redirect_to roles_path
   end
 
   private

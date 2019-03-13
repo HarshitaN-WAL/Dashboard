@@ -2,6 +2,6 @@
 
 class ProjectPolicy < ApplicationPolicy
   def new?
-    user.top_management?
+    user.top_management? || user.admin?
   end
 end

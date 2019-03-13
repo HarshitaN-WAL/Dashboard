@@ -79,7 +79,13 @@ $navbar-default-bg: #ff3300;
 .create-new-button
 {
   position: absolute;
-    left: 30%;
+  left: 30%;
+  margin-top: 10%;
+  text-align: center;
+}
+
+.create-project{
+  width: 218px !important
 }
 .split {
   height: 100%;
