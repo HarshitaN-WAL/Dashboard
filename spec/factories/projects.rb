@@ -2,11 +2,11 @@
 
 FactoryBot.define do
   factory :project do
-    name {'monster'}
-    start_date {'2019-02-25'}
-    expected_target_date {'2019-03-25'}
-    project_token {'2199776'}
-    pt_token {'db582a94d248f6b17143351774a0000'}
+    sequence(:name) { |n| "project#{n}@example.com" }
+    start_date {1.week.ago}
+    expected_target_date {Time.now}
+    project_token {'2229070'}
+    pt_token {'c375f55b052a451a29db1e42eb2b0232'}
     quality_token {'4a6076ef74c16d09d7cca6dbab264d89dc015eee'}
     github_slug {'HarshitaN-WAL/Dashboard'}
   end

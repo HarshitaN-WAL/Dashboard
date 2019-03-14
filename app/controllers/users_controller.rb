@@ -22,6 +22,7 @@ class UsersController < ApplicationController
   def sign_up_new
     @user = User.new
   end
+  
   def sign_up_create
     @user = User.new(user_params)
     if @user.save

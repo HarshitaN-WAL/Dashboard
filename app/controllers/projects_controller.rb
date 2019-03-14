@@ -1,6 +1,7 @@
 require 'net/http'
 
 class ProjectsController < ApplicationController
+
   before_action :find_project, only: %i[show update destroy]
   before_action :users_roles, only: %i[new create]
 
@@ -65,17 +66,23 @@ class ProjectsController < ApplicationController
     @users_list = @project.users.where(project_users: { active: 1 }).group_by(&:rolename)
     @roles = @users_list.keys
     if check_pivotal_tracker
-      @bugs = PivotalTrackerJob.perform_now @project.id
+      begin
+        @bugs = PivotalTrackerJob.perform_now @project.id
+      rescue TrackerApi::Errors::ClientError => e
+        @pt_error = "There is a pivotal tracker error"
+        puts "#{e.class}  #{e.message}"
+      end
     else
       @count_bugs = 0
     end
     if check_code_quality
-      @image_url = code_climate
+        @image_url = code_climate
     else
       @image_url = nil
     end
     @message = Message.new
     @messages = @project.messages
+    
     # return @image_url = code_climate
   end
 
@@ -142,5 +149,8 @@ class ProjectsController < ApplicationController
 
   def code_climate
     ProjectService.new.code_quality(@project)
+  rescue ClimateError => e
+    puts "#{e.message}"
+    # @climate_error = "There is something wrong with code climate"
   end
 end

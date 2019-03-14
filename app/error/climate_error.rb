@@ -1,0 +1,2 @@
+class ClimateError < StandardError
+end

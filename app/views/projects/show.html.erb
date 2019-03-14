@@ -33,12 +33,23 @@
 </div>
 
 <div class="split right">
-  <% if @project.pt_token%>
-    <div class="pie-chart">  
-      <%= pie_chart(@bugs) %>
+  <div class="card" style="width: 90%;"">
+    <div class="card-body">
+      <h5 class="card-title">Pivotal Tracker Bug Report</h5>
+      <% if @project.pt_token %>
+        <% if @pt_error%>
+          <div class="pie-chart fill-red">  
+            <%= @pt_error %>
+          </div>
+        <%else%>
+          <div class="pie-chart">  
+            <%= pie_chart(@bugs) %>
+          </div>        
+        <%end%>
+      <%end%>
+      <br>
     </div>
-  <%end%>
-  <br>
+  </div>
   <div align="left">
     <button class="open-button" id="chat-button" onclick="openForm()">Chat</button>
     <div class="chat-popup" id="myForm">

@@ -53,7 +53,7 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    it 'should redirect to the users show page' do
+    it 'should redirect to the users show page after update' do
       patch :update, params: { id: user.id, user: { username: 'qwerty' } }
       user.reload
       expect(user.username).to eql('qwerty')
