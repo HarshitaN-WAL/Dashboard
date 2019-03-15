@@ -31,23 +31,20 @@
   <%#= link_to 'Back to all projects', projects_path %>
   </div>
 </div>
-
+<% pt_card_class = @pt_error ? 'border-danger' : 'border-success' %>
 <div class="split right">
-  <div class="card" style="width: 90%;">
+  <div class="card <%= pt_card_class %>" style="width: 90%;">
     <div class="card-body">
       <h5 class="card-title">Pivotal Tracker Bug Report</h5>
       <% if @project.pt_token %>
-        <% if @pt_error%>
-          <div class="pie-chart fill-red">  
-            <%= @pt_error %>
-          </div>
-        <%else%>
-          <div class="pie-chart">  
+        <div class="pie-chart">
+          <% if @pt_error%>
+            <p class="card-text"><%= @pt_error %></p>
+          <%else%>
             <%= pie_chart(@bugs) %>
-          </div>        
-        <%end%>
+          <%end%>
+        </div> 
       <%end%>
-      <br>
     </div>
   </div>
   <div align="left">
@@ -71,7 +68,8 @@
 
 <!-- javascript for channel -->
 <script type="text/javascript">
-  (function() {
+  (
+    function() {
   App.cable.subscriptions.create({
     channel: "ProjectChannel",
     project_id: <%= @project.id %>
