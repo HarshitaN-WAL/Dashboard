@@ -66,12 +66,12 @@ class ProjectsController < ApplicationController
     @users_list = @project.users.where(project_users: { active: 1 }).group_by(&:rolename)
     @roles = @users_list.keys
     if check_pivotal_tracker
-      begin
+      # begin
         @bugs = PivotalTrackerJob.perform_now @project.id
-      rescue TrackerApi::Errors::ClientError => e
-        @pt_error = "There is a pivotal tracker error"
-        puts "#{e.class}  #{e.message}"
-      end
+      # rescue TrackerApi::Errors::ClientError => e
+        # @pt_error = "There is a pivotal tracker error"
+        # puts "#{e.class}  #{e.message}"
+      # end
     else
       @count_bugs = 0
     end

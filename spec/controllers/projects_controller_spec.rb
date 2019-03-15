@@ -18,6 +18,8 @@ RSpec.describe ProjectsController, type: :controller do
 
   describe 'post create project' do
     it 'should render show page after creation' do
+      allow(PivotalTrackerJob).to receive(:perform_now).and_return({unstarted_bugs: 10, closed_bugs: 5, started_bugs: 10, rejected_bugs: 9})
+      # allow(ProjectsController).to receive(:code_climate). and_return(nil)
       post :create, params: {"project": build(:project).attributes, "user_id": [user.id]}
       project = Project.last
       expect(response).to redirect_to project_path(project)
@@ -41,6 +43,7 @@ RSpec.describe ProjectsController, type: :controller do
 
   describe 'PATCH #update' do
     it 'should redirect to the users show page after updation' do
+      allow(PivotalTrackerJob).to receive(:perform_now).and_return({unstarted_bugs: 10, closed_bugs: 5, started_bugs: 10, rejected_bugs: 9})
       patch :update, params: { id: project.id, project: { name: 'qwerty'}, user_id: [user.id] }
       project.reload
       expect(project.name).to eql('qwerty')
@@ -56,8 +59,11 @@ RSpec.describe ProjectsController, type: :controller do
 
   describe 'GET projects#show' do
     it 'should render the show page' do
-      get :show, params: { id: project.id }
       allow(PivotalTrackerJob).to receive(:perform_now).and_return({unstarted_bugs: 10, closed_bugs: 5, started_bugs: 10, rejected_bugs: 9})
+      # allow(ProjectsController).to receive(:code_climate). and_return(nil) 
+      url = "https://tineye.com/images/widgets/mona.jpg"
+      allow_any_instance_of(ProjectService).to receive(:code_quality).with(project).and_return(url)
+      get :show, params: { id: project.id }      
       expect(response).to render_template(:show)
     end
   end
