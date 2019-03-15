@@ -61,9 +61,12 @@ RSpec.describe ProjectsController, type: :controller do
     it 'should render the show page' do
       allow(PivotalTrackerJob).to receive(:perform_now).and_return({unstarted_bugs: 10, closed_bugs: 5, started_bugs: 10, rejected_bugs: 9})
       # allow(ProjectsController).to receive(:code_climate). and_return(nil) 
-      url = "https://tineye.com/images/widgets/mona.jpg"
-      allow_any_instance_of(ProjectService).to receive(:code_quality).with(project).and_return(url)
-      get :show, params: { id: project.id }      
+      # url = "https://tineye.com/images/widgets/mona.jpg"
+      # allow_any_instance_of(ProjectService).to receive(:code_quality).with(project).and_return(url)
+      VCR.use_cassette("project/code_quality") do
+      get :show, params: { id: project.id }
+      end
+      # get :show, params: { id: project.id }      
       expect(response).to render_template(:show)
     end
   end

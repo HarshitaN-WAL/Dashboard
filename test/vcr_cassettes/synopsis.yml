@@ -1,0 +1,60 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.codeclimate.com/v1/repos?github_slug=harshitan-wal/dashboard
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/vnd.api+json
+      User-Agent:
+      - Ruby
+      Authorization:
+      - Token 4a6076ef74c16d09d7cca6dbab264d89dc015eee
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 15 Mar 2019 07:00:25 GMT
+      Content-Type:
+      - application/vnd.api+json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Status:
+      - 200 OK
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Request-Id:
+      - 66f09d02-1b92-467f-8656-88b28cb234cf
+      Etag:
+      - W/"e0234245cb00aa260ccfa99a9a0b235e"
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Runtime:
+      - '0.008121'
+      X-Content-Type-Options:
+      - nosniff
+      X-Powered-By:
+      - Phusion Passenger 5.3.3
+      Server:
+      - nginx + Phusion Passenger 5.3.3
+      Strict-Transport-Security:
+      - max-age=31536000;
+    body:
+      encoding: UTF-8
+      string: '{"data":[]}'
+    http_version: 
+  recorded_at: Fri, 15 Mar 2019 07:00:25 GMT
+recorded_with: VCR 4.0.0

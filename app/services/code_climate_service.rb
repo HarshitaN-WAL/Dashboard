@@ -14,11 +14,11 @@ class CodeClimateService
     req = Net::HTTP::Get.new(uri.request_uri)
     req['Accept'] = "application/vnd.api+json"
     req['Authorization'] = "Token " << token
-      res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) {|http|
-      http.request(req)
-      }
+    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) {|http|
+    http.request(req)
+    }
     raise ClimateError, "Code climate error" if (res.code != "200" || JSON.parse(res.body)["data"].blank?)
-       
+    return res
   end
 
   # def fetch_badge(url:)

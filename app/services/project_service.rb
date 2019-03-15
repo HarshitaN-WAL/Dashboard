@@ -7,7 +7,7 @@ class ProjectService
   end
 
   def code_quality(project)
-    response = CodeClimateService.new(token: project.quality_token, github_slug: project.github_slug.downcase).fetch_repo
+    response = CodeClimateService.new(token: project.quality_token, github_slug: project.github_slug).fetch_repo
     maintainability_url = JSON.parse(response.body)["data"][0]["links"]["maintainability_badge"]
   end
 end

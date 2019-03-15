@@ -87,7 +87,7 @@
             <%= f.label :github_slug, "Github Slug"%>
           </div>
           <div class='col-sm-6'>
-            <%= f.text_field :github_slug, required: true, class: 'form-control' %>
+            <%= f.text_field :github_slug, placeholder: "username/reponame", required: true, class: 'form-control' %>
           </div>
       </div>
       <%end%>
@@ -100,6 +100,8 @@
   </div>
 </div>
 <br>
-<p>
-  <%#= link_to 'Back to all projects', projects_path, class:"btn btn-primary" %>
-</p>
+<script type="text/javascript">
+  (function () { 
+    document.getElementById("centerbox1").style.backgroundColor = '#99C262';
+    })();    
+</script>
