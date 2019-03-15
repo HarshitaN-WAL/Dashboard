@@ -70,10 +70,11 @@ class ProjectsController < ApplicationController
         @bugs = PivotalTrackerJob.perform_now @project.id
       rescue TrackerApi::Errors::ClientError => e
         @pt_error = "There is a pivotal tracker error"
+        @border = "border-danger"
         puts "#{e.class}  #{e.message}"
       end
     else
-      @count_bugs = 0
+      @bugs = 0
     end
     if check_code_quality
         @image_url = code_climate
