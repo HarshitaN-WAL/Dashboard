@@ -1,5 +1,3 @@
-<h1>The list of Roles</h1>
-<br>
 <table class="table">
   <thead>
     <tr>
@@ -12,8 +10,12 @@
     <tr>
       <td><%=r.id%></td>
       <td><%=r.rolename%></td>
-      <td><%= link_to 'Edit', edit_role_path(r) %></td>
-      <td><%= link_to 'Destroy', role_path(r) , method: :delete , data:{confirm:"are you sure?"} %></td>
+      <% if r.rolename == "Admin" || r.rolename == "Top Management" %>
+      <td colspan="2" align="center" style="color:red"> "Actions not allowed"</td>
+      <%else%>
+        <td><%= link_to 'Edit', edit_role_path(r) %></td>
+        <td><%= link_to 'Destroy', role_path(r) , method: :delete , data:{confirm:"are you sure?"} %></td>
+      <%end%>
     </tr>
     <%end%>
 

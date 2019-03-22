@@ -18,7 +18,7 @@ class RolesController < ApplicationController
   end
 
   def index
-    @roles = Role.all
+    @roles = Role.all.order(:id)
     # @user = User.find(session[:user_id])
     authorize @roles
   end
