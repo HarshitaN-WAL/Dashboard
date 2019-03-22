@@ -46,6 +46,7 @@ gem 'rubocop', require: false
 gem 'sidekiq'
 gem 'sidekiq-status'
 gem 'kaminari'
+gem 'link_to_add_fields'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 

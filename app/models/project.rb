@@ -4,13 +4,16 @@ class Project < ApplicationRecord
   has_many :project_users, dependent: :destroy
   has_many :users, through: :project_users
   has_many :messages, as: :messageable
+  has_many :repos, dependent: :destroy
+  accepts_nested_attributes_for :repos, allow_destroy: true
 
   validates :name, presence: true, length: { minimum: 3, maximum: 50 }
-  validates :start_date, presence: true, length: { is: 10 }
+  validates :start_date, presence: true
   validates :expected_target_date, presence: true
   validates :pt_token, presence: true
   validates :project_token, presence: true
   validate :validate_end_date
+  validates :repos, length: {minimum: 1}
 
   scope :not_started, -> { where('start_date > ?', Time.now.to_date) }
   # default_scope { where('start_date > ?', Time.now.to_date)  }

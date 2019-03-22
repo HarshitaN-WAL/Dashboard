@@ -15,17 +15,30 @@
     <p>
       Project Users:<%@roles.each do|r|%>
         <br>
-        <%= r%>
+        <%= r%>:
         <%@users_list[r].each do |user|%>
           <%=link_to user.username ,user_path(user)%>
         <%end%>
       <%end%>
       <br>
     </p>
-    <% if !@image_url.nil?%>
-      <p>Code Quality Badge:
+    <% code_climate_class = @code_climate_error ? 'color: red' : 'color: green' %>
+    <p style = "<%= code_climate_class%>">Code Quality Badge:
+    <% if !@image_url.nil?%>      
       <%= image_tag @image_url %>
-      </p>
+    <%end%>
+    <% if !@code_climate_error.blank?%>
+      <%= @code_climate_error%>
+    <%end%>
+    </p>
+    <% if !@repos_list.nil?%>
+      <p class="label">GitHub info:</p>
+      <ul style="list-style-type:none;">
+        <% @repos_list.each do |r| %>
+          <li><a href=<%=r.link%>><%=r.link%></a></li>
+          <%#= link_to h(r),r%>
+        <%end%>
+      </ul>
     <%end%>
     <br>
   <%#= link_to 'Back to all projects', projects_path %>

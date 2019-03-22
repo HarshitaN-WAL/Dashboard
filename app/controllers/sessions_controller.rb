@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
         redirect_to projects_path
       end
     else
-      flash.now[:danger] = 'Something is wrong in your login'
+      flash.now[:error] = 'Something is wrong in your login'
       render 'new'
     end
   end

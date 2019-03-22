@@ -142,6 +142,8 @@ GEM
       activerecord
       kaminari-core (= 1.1.1)
     kaminari-core (1.1.1)
+    link_to_add_fields (0.1.0)
+      rails (>= 3.0)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -355,6 +357,7 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   jquery-rails
   kaminari
+  link_to_add_fields
   listen (>= 3.0.5, < 3.2)
   pg
   puma (~> 3.11)
