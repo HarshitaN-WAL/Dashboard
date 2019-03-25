@@ -8,13 +8,13 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    if @user.save
+    if @user.save!
       # @user.avatar.attach(params[:avatar])
       flash[:success] = 'user was created successfully'
-      redirect_to user_path(@user)
       UserMailer.welcome_email(@user).deliver_later
+      redirect_to user_path(@user)      
     else
-      flash[:notice] = 'user was not created'
+      flash[:notice] = "user was not created #{@user.errors.full_messages}"
       render 'new'
     end
   end
@@ -27,10 +27,10 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       flash[:success] = 'Please login to continue'
-      redirect_to root_path
       UserMailer.welcome_email(@user).deliver_later
+      redirect_to root_path
     else
-      flash[:notice] = 'user was not created'
+      flash[:notice] = "user was not created #{@user.errors.full_messages}"
       render 'new'
     end
   end
@@ -64,6 +64,7 @@ class UsersController < ApplicationController
       flash[:success] = 'User was updated successfully'
       redirect_to user_path(@user)
     else
+      flash[:notice] = "#{@user.errors.full_messages}"
       render 'edit'
     end
   end

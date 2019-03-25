@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe ProjectsController, type: :controller do
-  let!(:project) { create(:project) }  
+  let(:project) { create(:project) }
+  # let(:reo) { create(:repo) }  
   let(:user) {create(:user)}
   let(:user1) {create(:user)}
   before(:each) do
@@ -19,17 +20,19 @@ RSpec.describe ProjectsController, type: :controller do
   describe 'post create project' do
     it 'should render show page after creation' do
       allow(PivotalTrackerJob).to receive(:perform_now).and_return({unstarted_bugs: 10, closed_bugs: 5, started_bugs: 10, rejected_bugs: 9})
-      # allow(ProjectsController).to receive(:code_climate). and_return(nil)
-      post :create, params: {"project": build(:project).attributes, "user_id": [user.id]}
+      project_hash =  attributes_for(:project)
+      repo_hash = attributes_for(:repo)
+      params_hash = project_hash.merge!(repos_attributes: { "0" => repo_hash})
+      user1 = create(:user)
+      post :create, params: {"project": params_hash, "user_id": [user1.id]}
       project = Project.last
-      expect(response).to redirect_to project_path(project)
+      expect(response).to redirect_to(project_path(project)) 
     end
   end
 
   describe 'NEW project' do
     it 'should create a new object' do
       get :new
-      # allow(PivotalTrackerJob).to receive(:perform_now).and_return({skjds: skjad})
       expect(assigns(:project)).to be_a_new(Project)
     end
   end

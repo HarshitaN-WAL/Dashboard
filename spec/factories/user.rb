@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :user do
     association :role
-    username { 'harshita' }
-    email { 'hars@gmail.com' }
-    password { 'hasrhita' }
+    sequence(:username) { |n| "harshita#{n}" }
+    sequence(:email) { |n| "hars#{n}@gmail.com" }
+    sequence(:password) { |n| "hasrhita#{n}"}
 
     trait :with_avatar do
       after :create do |user|

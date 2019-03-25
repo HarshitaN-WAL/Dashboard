@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_18_060658) do
+ActiveRecord::Schema.define(version: 2019_03_22_065918) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(version: 2019_03_18_060658) do
     t.string "pt_token"
     t.string "github_slug"
     t.string "quality_token"
+    t.string "client"
   end
 
   create_table "repos", force: :cascade do |t|

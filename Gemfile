@@ -84,6 +84,8 @@ group :test do
   gem 'chromedriver-helper'
   gem 'vcr'
   gem 'webmock'
+  gem 'factory_bot_rails'
+  gem 'rspec-rails'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

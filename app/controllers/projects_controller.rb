@@ -14,9 +14,11 @@ class ProjectsController < ApplicationController
 
   def create
     @project = Project.new(project_params)
-    if @project.save && save_project_user 
-      flash[:success] = 'Project was successfully created'
-      redirect_to project_path(@project)
+    if @project.save! 
+      if save_project_user
+        flash[:success] = 'Project was successfully created'
+        redirect_to project_path(@project)
+      end
     else
       message = "Project was not created because #{@project.errors.full_messages}"
       flash.now[:error] = message
@@ -37,10 +39,6 @@ class ProjectsController < ApplicationController
 
   def edit
     edit_project
-    # @project.repos.build
-    # @repos_list = @project.repos
-    # specifying the action is not new i.e @action = false
-    
   end
 
   def update
@@ -92,14 +90,12 @@ class ProjectsController < ApplicationController
     end
     @message = Message.new
     @messages = @project.messages
-    
-    # return @image_url = code_climate
   end
 
   private
 
   def project_params
-    permit_params = %i[name start_date expected_target_date pt_token project_token quality_token github_slug]
+    permit_params = %i[name start_date expected_target_date pt_token project_token quality_token github_slug client]
     params.require(:project).permit(permit_params, repos_attributes: [:link, :_destroy, :id])
   end
 
@@ -122,19 +118,10 @@ class ProjectsController < ApplicationController
         @user = params[:user_id]
       end
       @user.each do |i|
-        @project_user = @project.project_users.create!(user_id: i, active: 1)
+        @project.project_users.create!(user_id: i, active: 1)
       end
     end
   end
-
-  # def save_repo
-  #   if params[:repos]
-  #     repo_array = params[:repos].split(',')
-  #     repo_array.each do |repo|
-  #       @project.repos.create!(link: repo)
-  #     end
-  #   end
-  # end
 
   def check_pivotal_tracker
     !@project.pt_token.blank? && !@project.project_token.blank?
@@ -168,10 +155,6 @@ class ProjectsController < ApplicationController
 
   def code_climate
     ProjectService.new.code_quality(@project)
-  # rescue ClimateError => e
-  #   puts "#{e.message}"
-  #   @code_climate_error = e.message
-    # @climate_error = "There is something wrong with code climate"
   end
 
   def edit_project

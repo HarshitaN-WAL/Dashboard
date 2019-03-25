@@ -32,7 +32,7 @@ RSpec.describe UsersController, type: :controller do
   describe 'Create user' do
     it 'should create a user' do
       role = create(:role, rolename: 'Top Management')
-      post :create, params: { user: { username: 'rat', email: 'rat@qq.com', password: 'qqaddsfhg', role_id: role.id } }
+      post :create, params: { user: attributes_for(:user, role_id: role.id)} 
       user = User.last
       expect(response).to redirect_to user_path(user)
     end

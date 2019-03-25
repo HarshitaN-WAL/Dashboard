@@ -12,6 +12,7 @@ class Project < ApplicationRecord
   validates :expected_target_date, presence: true
   validates :pt_token, presence: true
   validates :project_token, presence: true
+  validates :client, presence: true
   validate :validate_end_date
   validates :repos, length: {minimum: 1}
 
