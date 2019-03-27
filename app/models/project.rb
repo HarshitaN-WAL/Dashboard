@@ -7,7 +7,7 @@ class Project < ApplicationRecord
   has_many :repos, dependent: :destroy
   accepts_nested_attributes_for :repos, allow_destroy: true
 
-  validates :name, presence: true, length: { minimum: 3, maximum: 50 }
+  validates :name, presence: true, length: { minimum: 3, maximum: 50 }, uniqueness: { case_sensitive: false }
   validates :start_date, presence: true
   validates :expected_target_date, presence: true
   validates :pt_token, presence: true
