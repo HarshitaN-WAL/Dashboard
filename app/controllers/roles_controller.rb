@@ -28,6 +28,7 @@ class RolesController < ApplicationController
   def edit
     if Role.find(params[:id]).rolename != "Admin" && Role.find(params[:id]).rolename != "Top Management"
       @role = Role.find(params[:id])
+      authorize @role
     else
       flash.now[:error] = "Action not allowed"
       @roles = Role.all
@@ -46,6 +47,7 @@ class RolesController < ApplicationController
 
   def destroy
     if @role.rolename != "Admin" && @role.rolename != "Top Management"
+      authorize @role
       @role.destroy
       flash[:error] = 'Role deleted'
       redirect_to roles_path

@@ -7,9 +7,6 @@ class UserPolicy < ApplicationPolicy
   def new?
     user.top_management? || user.admin?
   end
-  def edit?
-    user.top_management? || user.admin?
-  end
   def destroy?
     user.top_management? || user.admin?
   end

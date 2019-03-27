@@ -59,10 +59,11 @@ class UsersController < ApplicationController
   end
 
   def edit
+    unless current_user == @user
+     user_not_authorized
+    end
     if @user.username != "Admin"
     @role = Role.all - Role.where(rolename: "Admin")
-    @user
-    authorize @user
     else
       redirect_to users_path
     end    
