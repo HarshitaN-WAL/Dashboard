@@ -20,26 +20,22 @@ class ProjectsController < ApplicationController
         redirect_to project_path(@project)
       else
         message = "Project was not created because it could not save the users"
-        flash.now[:error] = message
-        users_roles
-        render 'new'
+        project_not_created(message)
       end
     else
       message = "Project was not created because #{@project.errors.full_messages.join(',')}"
-      flash.now[:error] = message
-      users_roles
-      render 'new'
+      project_not_created(message)
     end
   end
 
   def index
-      @role = User.find(session[:user_id]).rolename
-      if @role == 'Top Management' || @role == 'Admin'
-        @project = Project.all.page params[:page]
-      else
-        user_id = session[:user_id]
-        @project = Project.includes(users: :role).where(users: { id: user_id }).page params[:page]   
-      end
+    @role = User.find(session[:user_id]).rolename
+    if @role == 'Top Management' || @role == 'Admin'
+      @project = Project.all.page params[:page]
+    else
+      user_id = session[:user_id]
+      @project = Project.by_user(user_id).page params[:page]   
+    end
   end
 
   def edit
@@ -71,29 +67,9 @@ class ProjectsController < ApplicationController
   def show
     @users_list = @project.users.where(project_users: { active: 1 }).group_by(&:rolename)
     @roles = @users_list.keys
-    if check_pivotal_tracker
-      begin
-        @bugs = PivotalTrackerJob.perform_now @project.id
-      rescue TrackerApi::Errors::ClientError => e
-        @pt_error = "There is a pivotal tracker error"
-        puts "#{e.class}  #{e.message}"
-      end
-    else
-      @bugs = 0
-    end
-    if check_code_quality
-      begin
-        @image_url = code_climate
-      rescue ClimateError => e
-        # puts "#{e.message}"
-        @code_climate_error = "Please check your code climate"
-      end
-    else
-      @image_url = nil
-    end
-    if !@project.repos.blank?
-      @repos_list = @project.repos
-    end
+    get_pivotal_tracker
+    get_code_climate
+    get_repos
     @message = Message.new
     @messages = @project.messages
   end
@@ -156,7 +132,6 @@ class ProjectsController < ApplicationController
   def users_roles
     @user_list = User.includes(:role).group_by(&:rolename).reject {|k| k=="Admin"}
     @roles = @user_list.keys
-    @action = 'new'
   end
 
   def code_climate
@@ -170,6 +145,43 @@ class ProjectsController < ApplicationController
     @roles = @user_list.keys
     users = user_includes.where(project_users: { project_id: @project.id, active: 1 })
     @role_users = users.group_by(&:rolename)
-    @action = 'edit'
+  end
+
+  def get_pivotal_tracker 
+    if check_pivotal_tracker
+      begin
+        @bugs = PivotalTrackerJob.perform_now @project.id
+      rescue TrackerApi::Errors::ClientError => e
+        @pt_error = "There is a pivotal tracker error"
+        puts "#{e.class}  #{e.message}"
+      end
+    else
+      @bugs = 0
+    end
+  end
+
+  def get_code_climate
+    if check_code_quality
+      begin
+        @image_url = code_climate
+      rescue ClimateError => e
+        # puts "#{e.message}"
+        @code_climate_error = "Please check your code climate"
+      end
+    else
+      @image_url = nil
+    end
+  end
+
+  def get_repos
+    if !@project.repos.blank?
+      @repos_list = @project.repos
+    end
+  end
+
+  def project_not_created(message)    
+    flash.now[:error] = message
+    users_roles
+    render 'new'
   end
 end

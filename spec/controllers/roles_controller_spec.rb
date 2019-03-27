@@ -38,17 +38,17 @@ RSpec.describe RolesController, type: :controller do
     end
   end
 
-  describe 'GET users#show' do
+  describe 'GET roles#show' do
     it 'should render the show page' do
       get :show, params: { id: role.id }
       expect(response).to render_template(:show)
     end
   end
 
-  describe 'GET users#edit' do
+  describe 'GET roles#edit' do
     context "when performing edit action" do
       let(:role) {create(:role)}
-      it 'should get the user' do
+      it 'should get the role' do
         get :edit, params: { id: role.id, role: role }
         expect(assigns(:role)).to eq(role)
       end
@@ -58,7 +58,7 @@ RSpec.describe RolesController, type: :controller do
   describe 'PATCH #update' do
     context "when updating" do
       let(:role) {create(:role)}
-      it 'should redirect to the users show page after update' do
+      it 'should redirect to the roles index after update' do
         patch :update, params: { id: role.id, role: { rolename: 'Front End' } }
         role.reload
         expect(role.rolename).to eql('Front End')

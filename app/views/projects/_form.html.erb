@@ -55,17 +55,8 @@
       </div>
       <%end%>
       <!-- End of Roles -->
-
-      <!-- Make changes remove delete -->
-      <%#if @working_users%>
-        <%#= f.label :'Delete users' %>
-        <%#= select_tag "delete_id", options_from_collection_for_select(@working_users,"id","username"), multiple: true%>
-        <br>
-      <%#end%>
-      <!-- End of delete users -->
-      
       <!-- Pivotal Tracker for new -->
-      <%if @action%>
+      <%#if @action%>
         <div class='form-group row' align="center">
           <div class='control-label col-form-label col-sm-4'>
             <%= f.label :project_token, "Project Id"%>
@@ -101,11 +92,11 @@
         <%= f.fields_for :repos do |ff|%>
           <%= render partial: "repo_fields", locals: { f: ff }%>
         <%end%>
-        <% if @action == "edit"%>
+        <% if !@project.new_record? %>
         <%= link_to_add_fields 'Add Repo', f, :repos %><br>
         <%end%>
         <%#= link_to "Add new Repo", repo_add_partial_path%>
-      <%end%>
+      <%#end%>
 
       <!-- Create Button -->
       <div align="center">
