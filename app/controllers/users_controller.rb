@@ -37,7 +37,7 @@ class UsersController < ApplicationController
       flash.now[:error] = "User was not created #{@user.errors.full_messages.join(',')}"
       @user = User.new
       @role = Role.all - Role.where(rolename: "Admin")
-      render 'new'
+      render 'sign_up_new'
     end
   end
 
