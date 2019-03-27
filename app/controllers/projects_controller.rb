@@ -14,13 +14,18 @@ class ProjectsController < ApplicationController
 
   def create
     @project = Project.new(project_params)
-    if @project.save! 
+    if @project.save 
       if save_project_user
         flash[:success] = 'Project was successfully created'
         redirect_to project_path(@project)
+      else
+        message = "Project was not created because it could not save the users"
+        flash.now[:error] = message
+        users_roles
+        render 'new'
       end
     else
-      message = "Project was not created because #{@project.errors.full_messages}"
+      message = "Project was not created because #{@project.errors.full_messages.join(',')}"
       flash.now[:error] = message
       users_roles
       render 'new'
@@ -51,6 +56,7 @@ class ProjectsController < ApplicationController
       flash[:success] = 'Project was updated successfully'
       redirect_to project_path(@project)
     else
+      flash.now[:error] = "Project could not be edited because #{@project.errors.full_messages.join(',')} "
       edit_project
       render 'edit'
     end
@@ -164,6 +170,6 @@ class ProjectsController < ApplicationController
     @roles = @user_list.keys
     users = user_includes.where(project_users: { project_id: @project.id, active: 1 })
     @role_users = users.group_by(&:rolename)
-    @action = check_pivotal_tracker
+    @action = 'edit'
   end
 end

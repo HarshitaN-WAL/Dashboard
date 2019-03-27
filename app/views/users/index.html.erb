@@ -5,9 +5,6 @@
 <table class="table">
     <tr>
       <th>
-        Id
-      </th>
-      <th>
          Name
       </th>  
       <th>
@@ -22,8 +19,7 @@
     </tr>
     <%@users.each do |user|%>
       <tr>
-        <%if user.rolename!="Admin"%>
-          <td><%=user.id%></td>
+        <%if user.username!="Admin"%>
           <td><%=user.username%></td>
           <td><%=user.email%></td>
           <td><%=user.rolename%></td>

@@ -13,6 +13,8 @@ class RolesController < ApplicationController
       flash[:notice] = 'Role was created successfully'
       redirect_to roles_path
     else
+      @role = Role.new
+      authorize @role
       render 'new'
     end
   end
@@ -24,7 +26,13 @@ class RolesController < ApplicationController
   end
 
   def edit
-    @role = Role.find(params[:id])
+    if Role.find(params[:id]).rolename != "Admin" && Role.find(params[:id]).rolename != "Top Management"
+      @role = Role.find(params[:id])
+    else
+      flash.now[:error] = "Action not allowed"
+      @roles = Role.all
+      render 'index'
+    end
   end
 
   def update
@@ -37,9 +45,15 @@ class RolesController < ApplicationController
   end
 
   def destroy
-    @role.destroy
-    flash[:error] = 'Role deleted'
-    redirect_to roles_path
+    if @role.rolename != "Admin" && @role.rolename != "Top Management"
+      @role.destroy
+      flash[:error] = 'Role deleted'
+      redirect_to roles_path
+    else
+      flash.now[:error] = "Action not allowed"
+      @roles = Role.all
+      render 'index'
+    end
   end
 
   private

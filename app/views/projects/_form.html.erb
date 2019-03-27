@@ -101,7 +101,9 @@
         <%= f.fields_for :repos do |ff|%>
           <%= render partial: "repo_fields", locals: { f: ff }%>
         <%end%>
+        <% if @action == "edit"%>
         <%= link_to_add_fields 'Add Repo', f, :repos %><br>
+        <%end%>
         <%#= link_to "Add new Repo", repo_add_partial_path%>
       <%end%>
 
