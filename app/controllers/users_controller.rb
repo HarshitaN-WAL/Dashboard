@@ -9,10 +9,11 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    @password = params[:user][:password]
     if @user.save
       # @user.avatar.attach(params[:avatar])
       flash[:success] = 'user was created successfully'
-      UserMailer.welcome_email(@user).deliver_later
+      UserMailer.welcome_email(user: @user, password: @password).deliver_later
       redirect_to user_path(@user)      
     else
       flash.now[:error] = "user was not created #{@user.errors.full_messages.join(',')}"
@@ -29,9 +30,10 @@ class UsersController < ApplicationController
   
   def sign_up_create
     @user = User.new(user_params)
+    @password = params[:user][:password]
     if @user.save
       flash[:success] = 'Please login to continue'
-      UserMailer.welcome_email(@user).deliver_later
+      UserMailer.welcome_email(user: @user, password: @password).deliver_later
       redirect_to root_path
     else
       flash.now[:error] = "User was not created #{@user.errors.full_messages.join(',')}"

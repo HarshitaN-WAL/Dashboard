@@ -2,6 +2,7 @@
 :concurrency: 5
 :queues:
   - default
+  - mailers
 staging:
   :concurrency: 10
 production:
