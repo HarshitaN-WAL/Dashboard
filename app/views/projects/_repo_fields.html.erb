@@ -1,13 +1,13 @@
 <div class='form-group row repos_fields' align="center" id="form_fields">
   <div class='control-label col-form-label col-sm-4'>
-    <%= f.label :link, "Github Repository"%>
+    <%= f.label :link, "Git Repo"%>
   </div>
-  <div class='col-sm-4'>
+  <div class='col-sm-5'>
     <%= f.text_field :link, placeholder: "github repository link", class: 'form-control' %>
   </div>
   <% if f.object.persisted? %>
 <%#= ff.label :_destroy, "Destroy" %>
-    <div class='col-sm-2 ' title=" check to Destroy repo">
+    <div class='col-sm-1 ' title=" check to delete repo">
       <%= f.check_box :_destroy %>
     </div>
   <% end %>
