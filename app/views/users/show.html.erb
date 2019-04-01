@@ -15,9 +15,10 @@
 <p>
     Role:<%= @role%>
 </p>
-<%if current_user.top_management?%>
-<%= link_to 'Back to all Users', users_path %>
-<%end%>
+<%#if current_user.top_management?%>
+<%#= link_to 'Back to all Users', users_path %>
+<%#end%>
+<br>
 <%if current_user%>
 <%= link_to 'Click here to edit profile', edit_user_path(current_user) %>
 <%end%>

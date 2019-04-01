@@ -19,5 +19,16 @@
   <%#end%>
   <%= yield %>
   </div>
+  <script type="text/javascript">
+    $(function(){
+   var flashDurationInSeconds = 5;
+   var flashContainerId = 'flash_message';
+
+   function removeFlashMessages() {
+     $('#' + flashContainerId).remove();
+   }
+
+   setTimeout(removeFlashMessages, flashDurationInSeconds * 1000);
+})</script>
 </body>
 </html>

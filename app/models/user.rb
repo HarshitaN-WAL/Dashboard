@@ -19,11 +19,6 @@ class User < ApplicationRecord
   has_secure_password
   before_save :email_downcase
 
-  private
-  def email_downcase
-    self.email = email.downcase 
-  end
-
   def top_management?
     rolename == 'Top Management'
   end
@@ -31,4 +26,10 @@ class User < ApplicationRecord
   def admin?
     rolename == 'Admin'
   end
+  
+  private
+  def email_downcase
+    self.email = email.downcase 
+  end
+
 end
