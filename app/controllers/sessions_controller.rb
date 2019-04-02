@@ -16,14 +16,15 @@ class SessionsController < ApplicationController
         redirect_to projects_path
       end
     else
-      flash.now[:danger] = 'Something is wrong in your login'
+      flash.now[:error] = 'Something is wrong in your login'
       render 'new'
     end
   end
 
   def destroy
     cookies.delete :user_id
-    session[:user_id] = nil
+    # session[:user_id] = nil
+    reset_session
     redirect_to root_path
   end
 
@@ -39,6 +40,7 @@ class SessionsController < ApplicationController
 
   def create_session
     session[:user_id] = @user.id
+    session[:role] = @user.rolename
   end
 
   def create_cookie
@@ -48,11 +50,6 @@ class SessionsController < ApplicationController
   def log_user
     create_session
     create_cookie
-    assign_role
     flash[:success] = 'You have logged in successfully'
-  end
-
-  def assign_role
-    @role = @user.rolename
   end
 end

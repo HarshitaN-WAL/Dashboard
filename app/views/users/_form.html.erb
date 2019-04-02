@@ -19,14 +19,16 @@
         </div>
       </div>
       <br>
-      <div class='form-group row' align="center">
-        <div class='control-label col-sm-2 col-form-label'>
-          <%=u.label  :password%>
+      <%if @user.new_record?%>
+        <div class='form-group row' align="center">
+          <div class='control-label col-sm-2 col-form-label'>
+            <%=u.label  :password%>
+          </div>
+          <div class='col-sm-8'>
+            <%=u.password_field :password, required: true, class: "form-control"%>
+          </div>
         </div>
-        <div class='col-sm-8'>
-          <%=u.password_field :password, required: true, class: "form-control"%>
-        </div>
-      </div>
+      <%end%>
       <br>
       <div class='form-group row' align="center">
         <div class='control-label col-sm-2 col-form-label'>
@@ -47,7 +49,7 @@
           <%= u.label :role, "Role"%>
         </div>
         <div class='col-sm-8'>
-          <%=u.select :role_id,Role.all.collect{|r| [r.rolename,r.id]}, required: true, class: "form-control"%>
+          <%=u.select :role_id,@role.collect{|r| [r.rolename,r.id]}, required: true, class: "form-control"%>
         </div>
       </div>
       <br>

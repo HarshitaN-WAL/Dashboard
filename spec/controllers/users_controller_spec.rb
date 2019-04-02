@@ -32,7 +32,7 @@ RSpec.describe UsersController, type: :controller do
   describe 'Create user' do
     it 'should create a user' do
       role = create(:role, rolename: 'Top Management')
-      post :create, params: { user: { username: 'rat', email: 'rat@qq.com', password: 'qqaddsfhg', role_id: role.id } }
+      post :create, params: { user: attributes_for(:user, role_id: role.id)} 
       user = User.last
       expect(response).to redirect_to user_path(user)
     end
@@ -61,9 +61,18 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe 'DELETE #delete' do
-    it 'should redirect to index page' do
-      delete :destroy, params: { id: user.id }
-      expect(User.find_by(id: user.id)).to be_nil
+    context "while deleting" do
+      let(:role1) {create(:role, rolename: "Frontend")}
+      let!(:user1) { create(:user, :with_avatar, role_id: role1.id) }
+      let(:role) {create(:role, rolename: "Admin")}
+      let(:user) { create(:user, :with_avatar, role_id: role.id)}
+      before do
+        allow(controller).to receive(:current_user).and_return(user)
+      end
+      it 'should redirect to index page' do
+        delete :destroy, params: { id: user1.id }
+        expect(User.find_by(id: user1.id)).to be_nil
+      end
     end
   end
 end

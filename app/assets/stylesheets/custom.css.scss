@@ -82,6 +82,7 @@ $navbar-default-bg: #ff3300;
   left: 30%;
   margin-top: 10%;
   text-align: center;
+  margin-left: 12%;
 }
 
 .create-project{
@@ -210,6 +211,16 @@ $navbar-default-bg: #ff3300;
 .fill-red {
   background-color: red;
 }
+
+.label {
+  margin: 0
+}
+ .danger-border{
+  // border-left: 3px solid red!important;
+  // border-top: 2px solid red!important;
+  // border-bottom: 2px solid blue!important;
+ }
+
 
 // .backgrnd{
 //   background:url('bck.jpg')!important;

@@ -5,7 +5,7 @@
 </div>
 <%end%>
 <p>
-    Name:<%= @user.username%>
+    Name:<%= @user.username.titleize%>
 
 </p>
 <p>
@@ -13,8 +13,12 @@
 
 </p>
 <p>
-    Role:<%= @role%>
+    Role:<%= @role.titleize%>
 </p>
-<%if current_user.top_management?%>
-<%= link_to 'Back to all Users', users_path %>
+<%#if current_user.top_management?%>
+<%#= link_to 'Back to all Users', users_path %>
+<%#end%>
+<br>
+<%if current_user%>
+<%= link_to 'Click here to edit profile', edit_user_path(current_user) %>
 <%end%>

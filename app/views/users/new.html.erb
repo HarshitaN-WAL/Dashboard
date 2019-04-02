@@ -1,7 +1,7 @@
 <h1 align="center">create a new user</h1>
 <%= render partial: "form", locals: {zone: @user, url: { :action => "create" } } %>
 <%if session[:user_id]%>
-  <div>
+  <!-- <div>
       <%= link_to 'Back to all users', users_path, class:"btn btn-primary btn-lg" %>
-  </div>
+  </div> -->
 <%end%>

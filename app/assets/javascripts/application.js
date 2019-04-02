@@ -13,6 +13,7 @@
 //= require rails-ujs
 //= require jquery
 //= require jquery_ujs
+//= require link_to_add_fields
 //= require bootstrap-sprockets
 //= require Chart.bundle
 //= require chartkick

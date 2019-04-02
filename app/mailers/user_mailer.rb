@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 class UserMailer < ApplicationMailer
-  default from: 'PMTOOL'
+  default from: 'KTOOL'
 
-  def welcome_email(user)
+  def welcome_email(user:, password:)
     @user = user
+    @password = password
     @url  = 'http://localhost:3000'
     attachments['welcome.jpg'] = File.read('app/assets/images/welcome.jpg')
-    mail(to: @user.email, subject: 'Welcome to PM Tool')
+    mail(to: @user.email, subject: 'Welcome to KTool')
   end
 end

@@ -1,31 +1,46 @@
 <div class="split left">
   <div class="show-box">
     <p>
-      Name: <%= @project.name%>
+      Name: <%= @project.name.titleize%>
+    </p>
+    <p>
+      Client's Name: <%= @project.client.titleize%>
+    </p>
+    <p>
+      Start Date: <%= @project.start_date.strftime("%d/%m/%Y") %>
     </p>
 
     <p>
-      Start Date: <%= @project.start_date %>
-    </p>
-
-    <p>
-      Expected Deadline Date: <%= @project.expected_target_date %>
+      Expected Deadline Date: <%= @project.expected_target_date.strftime("%d/%m/%Y") %>
     </p>
 
     <p>
       Project Users:<%@roles.each do|r|%>
         <br>
-        <%= r%>
+        &nbsp&nbsp&nbsp&nbsp<%= r%>:
         <%@users_list[r].each do |user|%>
           <%=link_to user.username ,user_path(user)%>
         <%end%>
       <%end%>
       <br>
     </p>
-    <% if !@image_url.nil?%>
-      <p>Code Quality Badge:
+    <% code_climate_class = @code_climate_error ? 'color: red' : 'color: green' %>
+    <p style = "<%= code_climate_class%>">Code Quality Badge:
+    <% if !@image_url.nil?%>      
       <%= image_tag @image_url %>
-      </p>
+    <%end%>
+    <% if !@code_climate_error.blank?%>
+      <%= @code_climate_error%>
+    <%end%>
+    </p>
+    <% if !@repos_list.nil?%>
+      <p class="label">GitHub info:</p>
+      <ul style="list-style-type:none;">
+        <% @repos_list.each do |r| %>
+          <li><a href=<%=r.link%>><%=r.link%></a></li>
+          <%#= link_to h(r),r%>
+        <%end%>
+      </ul>
     <%end%>
     <br>
   <%#= link_to 'Back to all projects', projects_path %>
@@ -48,24 +63,9 @@
     </div>
   </div>
   <div align="left">
-    <button class="open-button" id="chat-button" onclick="openForm()">Chat</button>
-    <div class="chat-popup" id="myForm">
-      <div class="form-container">
-        <div id="message-container-project">
-          <%= render @messages%>
-        </div>
-        <%= form_for(@message,html: { class:"form-horizontal ",role:"form"}, url:message_path(project_id: @project.id), remote: true) do |f| %>
-          <%=f.text_field :body, class:"form-control"%>
-          <%=f.submit "Post", class:"btn btn-primary" %>
-          <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-        <%end%>
-      </div> 
-    </div>
+    <%= render 'chat' %>
   </div>
 </div>
-<!-- Link for projects index page -->
-
-
 <!-- javascript for channel -->
 <script type="text/javascript">
   (

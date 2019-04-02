@@ -3,35 +3,43 @@ class UsersController < ApplicationController
   before_action :find_user, only: %i[show destroy edit update]
   def new
     @user = User.new
+    @role = Role.all - Role.where(rolename: "Admin")
     authorize @user
   end
 
   def create
     @user = User.new(user_params)
+    @password = params[:user][:password]
     if @user.save
       # @user.avatar.attach(params[:avatar])
       flash[:success] = 'user was created successfully'
-      redirect_to user_path(@user)
-      UserMailer.welcome_email(@user).deliver_later
+      UserMailer.welcome_email(user: @user, password: @password).deliver_later
+      redirect_to user_path(@user)      
     else
-      flash[:notice] = 'user was not created'
+      flash.now[:error] = "user was not created #{@user.errors.full_messages.join(',')}"
+      @user = User.new
+      @role = Role.all - Role.where(rolename: "Admin")
       render 'new'
     end
   end
 
   def sign_up_new
     @user = User.new
+    @role = Role.all - Role.where(rolename: "Admin")
   end
   
   def sign_up_create
     @user = User.new(user_params)
+    @password = params[:user][:password]
     if @user.save
       flash[:success] = 'Please login to continue'
+      UserMailer.welcome_email(user: @user, password: @password).deliver_later
       redirect_to root_path
-      UserMailer.welcome_email(@user).deliver_later
     else
-      flash[:notice] = 'user was not created'
-      render 'new'
+      flash.now[:error] = "User was not created #{@user.errors.full_messages.join(',')}"
+      @user = User.new
+      @role = Role.all - Role.where(rolename: "Admin")
+      render 'sign_up_new'
     end
   end
 
@@ -46,13 +54,21 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    authorize @user
     @user.destroy
-    flash[:notice] = 'User Destroyed'
+    flash.now[:error] = 'User Destroyed'
     redirect_to users_path
   end
 
   def edit
-    @user
+    unless current_user == @user
+     user_not_authorized
+    end
+    if @user.username != "Admin"
+    @role = Role.all - Role.where(rolename: "Admin")
+    else
+      redirect_to users_path
+    end    
   end
 
   def download
@@ -64,6 +80,8 @@ class UsersController < ApplicationController
       flash[:success] = 'User was updated successfully'
       redirect_to user_path(@user)
     else
+      flash.now[:error] = "#{@user.errors.full_messages.join(',')}"
+      @role = Role.all - Role.where(rolename: "Admin")
       render 'edit'
     end
   end

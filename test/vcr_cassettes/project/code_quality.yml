@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.codeclimate.com/v1/repos?github_slug=harshitan-wal/dashboard
+    uri: https://api.codeclimate.com/v1/repos?github_slug=HarshitaN-WAL/Dashboard
     body:
       encoding: US-ASCII
       string: ''
@@ -21,7 +21,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Fri, 15 Mar 2019 07:04:22 GMT
+      - Mon, 18 Mar 2019 05:30:02 GMT
       Content-Type:
       - application/vnd.api+json; charset=utf-8
       Transfer-Encoding:
@@ -37,13 +37,70 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Request-Id:
-      - 24de35b4-9619-4e16-99ff-d399dcabd023
+      - 737aac05-bef5-4e21-90b0-15d80732e18a
+      Etag:
+      - W/"997f83e294c992beaa9fbea8506ecca2"
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Runtime:
+      - '0.020025'
+      X-Content-Type-Options:
+      - nosniff
+      X-Powered-By:
+      - Phusion Passenger 5.3.3
+      Server:
+      - nginx + Phusion Passenger 5.3.3
+      Strict-Transport-Security:
+      - max-age=31536000;
+    body:
+      encoding: UTF-8
+      string: '{"data":[{"id":"5c77d4fd4d95e902b5015a2d","type":"repos","attributes":{"analysis_version":50540,"badge_token":"2ab7e472f00991b130f5","branch":"master","created_at":"2019-02-28T12:33:01.354Z","delegated_config_repo_id":"","diff_coverage_enforced":true,"diff_coverage_threshold":50,"enable_notifications":true,"github_slug":"HarshitaN-WAL/Dashboard","human_name":"Dashboard","last_activity_at":"2019-03-15T12:54:50.592Z","test_reporter_id":"938635b12ce209c5ef66ffb476bb9050e0231af9f5e0491ecd9994473e32ce50","total_coverage_enforced":true,"vcs_database_id":"172437949","vcs_host":"https://github.com","score":null},"relationships":{"latest_default_branch_snapshot":{"data":{"id":"5c8ba086adb08a0001009b5f","type":"snapshots"}},"latest_default_branch_test_report":{"data":null},"account":{"data":null}},"links":{"self":"https://codeclimate.com/github/HarshitaN-WAL/Dashboard","services":"https://api.codeclimate.com/v1/repos/5c77d4fd4d95e902b5015a2d/services","web_coverage":"https://codeclimate.com/github/HarshitaN-WAL/Dashboard/coverage","web_issues":"https://codeclimate.com/github/HarshitaN-WAL/Dashboard/issues","maintainability_badge":"https://api.codeclimate.com/v1/badges/2ab7e472f00991b130f5/maintainability","test_coverage_badge":"https://api.codeclimate.com/v1/badges/2ab7e472f00991b130f5/test_coverage"},"meta":{"permissions":{"admin":true}}}]}'
+    http_version: 
+  recorded_at: Mon, 18 Mar 2019 05:30:02 GMT
+- request:
+    method: get
+    uri: https://api.codeclimate.com/v1/repos?github_slug=abcdefg5/qwttd
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/vnd.api+json
+      User-Agent:
+      - Ruby
+      Authorization:
+      - Token 4a6076ef74c16d09d7cca6dbab264d89dc015eee
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 27 Mar 2019 01:32:29 GMT
+      Content-Type:
+      - application/vnd.api+json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Status:
+      - 200 OK
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Request-Id:
+      - 8ffb7aec-9b4f-48ac-9122-101566b17852
       Etag:
       - W/"e0234245cb00aa260ccfa99a9a0b235e"
       X-Frame-Options:
       - SAMEORIGIN
       X-Runtime:
-      - '0.008754'
+      - '0.010079'
       X-Content-Type-Options:
       - nosniff
       X-Powered-By:
@@ -56,5 +113,5 @@ http_interactions:
       encoding: UTF-8
       string: '{"data":[]}'
     http_version: 
-  recorded_at: Fri, 15 Mar 2019 07:04:22 GMT
+  recorded_at: Wed, 27 Mar 2019 01:32:29 GMT
 recorded_with: VCR 4.0.0

@@ -1,0 +1,13 @@
+<button class="open-button" id="chat-button" onclick="openForm()">Chat</button>
+<div class="chat-popup" id="myForm">
+  <div class="form-container">
+    <div id="message-container-project">
+      <%= render @messages%>
+    </div>
+    <%= form_for(@message,html: { class:"form-horizontal ",role:"form"}, url:message_path(project_id: @project.id), remote: true) do |f| %>
+      <%=f.text_field :body, class:"form-control"%>
+      <%=f.submit "Post", class:"btn btn-primary" %>
+      <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+    <%end%>
+  </div> 
+</div>

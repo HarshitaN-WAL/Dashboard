@@ -8,8 +8,8 @@ class User < ApplicationRecord
   has_many :project_users, dependent: :destroy
   has_many :projects, through: :project_users
   has_many :messages, as: :messageable
-  before_save { self.email = email.downcase }
-  validates :username, presence: true, uniqueness: { case_sensitive: false }
+  validates :username, presence: true, uniqueness: { case_sensitive: false },
+                       length: { minimum: 3}
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.freeze
   validates :email, presence: true, length: { maximum: 105 },
                     uniqueness: { case_sensitive: false },
@@ -17,6 +17,8 @@ class User < ApplicationRecord
   validates :role_id, presence: true
   delegate :rolename, to: :role
   has_secure_password
+  before_save :email_downcase
+
   def top_management?
     rolename == 'Top Management'
   end
@@ -24,4 +26,10 @@ class User < ApplicationRecord
   def admin?
     rolename == 'Admin'
   end
+  
+  private
+  def email_downcase
+    self.email = email.downcase 
+  end
+
 end

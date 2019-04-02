@@ -6,7 +6,15 @@
           <%= f.label :name, "Project Name"%>
         </div>
         <div class='col-sm-6'>
-          <%= f.text_field :name, required: true, class: "form-control" %>
+          <%= f.text_field :name,required: true, class: "form-control" %>
+        </div>
+    </div>
+    <div class='form-group row' align="center">
+        <div class='control-label col-form-label col-sm-4'>
+          <%= f.label :client, "Client Name"%>
+        </div>
+        <div class='col-sm-6'>
+          <%= f.text_field :client,required: true, class: "form-control" %>
         </div>
     </div>
     <div class='form-group row' align="center">
@@ -14,7 +22,7 @@
         <%= f.label :start_date, "Start Date" %>
       </div>
       <div class='col-sm-6'>
-        <%= f.date_field :start_date, error: 'Start date is mandatory, please specify one', class: 'form-control' %>
+        <%= f.date_field :start_date, required: true, class: 'form-control' %>
       </div>
     </div>
     <div class='form-group row' align="center">
@@ -22,7 +30,7 @@
         <%= f.label :expected_target_date, "Expected End Date" %>
       </div>
       <div class='col-sm-6'>
-        <%= f.date_field :expected_target_date, class: 'form-control' %>
+        <%= f.date_field :expected_target_date,required: true, class: 'form-control' %>
       </div>
     </div> 
       <!-- Roles -->
@@ -47,50 +55,48 @@
       </div>
       <%end%>
       <!-- End of Roles -->
-
-      <!-- Make changes remove delete -->
-      <%#if @working_users%>
-        <%#= f.label :'Delete users' %>
-        <%#= select_tag "delete_id", options_from_collection_for_select(@working_users,"id","username"), multiple: true%>
-        <br>
-      <%#end%>
-      <!-- End of delete users -->
-      
       <!-- Pivotal Tracker for new -->
-      <%if @action%>
-      <div class='form-group row' align="center">
-        <div class='control-label col-form-label col-sm-4'>
-          <%= f.label :project_token, "Project Id"%>
-        </div>
-        <div class='col-sm-6'>
-         <%= f.text_field :project_token, required: true, class: 'form-control'%>
-       </div>
-      </div>
-      <div class='form-group row' align="center">
+      <%#if @action%>
+        <div class='form-group row' align="center">
           <div class='control-label col-form-label col-sm-4'>
-            <%= f.label :pt_token, "Owner API Token"%>
+            <%= f.label :project_token, "Project Id"%>
           </div>
           <div class='col-sm-6'>
-            <%= f.text_field :pt_token, required: true, class: 'form-control' %>
-          </div>
-      </div>
-      <div class='form-group row' align="center">
-        <div class='control-label col-form-label col-sm-4'>
-          <%= f.label :quality_token, "Code Climate Token"%>
+           <%= f.text_field :project_token, required: true, class: 'form-control'%>
+         </div>
         </div>
-        <div class='col-sm-4'>
-         <%= f.text_field :quality_token, required: true, class: 'form-control'%>
-       </div>
-      </div>
-      <div class='form-group row' align="center">
+        <div class='form-group row' align="center">
+            <div class='control-label col-form-label col-sm-4'>
+              <%= f.label :pt_token, "Owner API Token"%>
+            </div>
+            <div class='col-sm-6'>
+              <%= f.text_field :pt_token, required: true, class: 'form-control' %>
+            </div>
+        </div>
+        <div class='form-group row' align="center">
           <div class='control-label col-form-label col-sm-4'>
-            <%= f.label :github_slug, "Github Slug"%>
+            <%= f.label :quality_token, "Code Climate Token"%>
           </div>
           <div class='col-sm-6'>
-            <%= f.text_field :github_slug, placeholder: "username/reponame", required: true, class: 'form-control' %>
-          </div>
-      </div>
-      <%end%>
+           <%= f.text_field :quality_token, required: true, class: 'form-control'%>
+         </div>
+        </div>
+        <div class='form-group row' align="center">
+            <div class='control-label col-form-label col-sm-4'>
+              <%= f.label :github_slug, "Github Slug"%>
+            </div>
+            <div class='col-sm-6'>
+              <%= f.text_field :github_slug, placeholder: "username/reponame", required: true, class: 'form-control' %>
+            </div>
+        </div>
+        <%= f.fields_for :repos do |ff|%>
+          <%= render partial: "repo_fields", locals: { f: ff }%>
+        <%end%>
+        <% if !@project.new_record? %>
+        <%= link_to_add_fields 'Add Repo', f, :repos %><br>
+        <%end%>
+        <%#= link_to "Add new Repo", repo_add_partial_path%>
+      <%#end%>
 
       <!-- Create Button -->
       <div align="center">
@@ -99,9 +105,4 @@
     <% end %>
   </div>
 </div>
-<br>
-<script type="text/javascript">
-  (function () { 
-    document.getElementById("centerbox1").style.backgroundColor = '#99C262';
-    })();    
-</script>
+
