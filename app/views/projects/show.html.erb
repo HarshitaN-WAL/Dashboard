@@ -1,23 +1,23 @@
 <div class="split left">
   <div class="show-box">
     <p>
-      Name: <%= @project.name%>
+      Name: <%= @project.name.titleize%>
     </p>
     <p>
-      Client's Name: <%= @project.client%>
+      Client's Name: <%= @project.client.titleize%>
     </p>
     <p>
-      Start Date: <%= @project.start_date %>
+      Start Date: <%= @project.start_date.strftime("%d/%m/%Y") %>
     </p>
 
     <p>
-      Expected Deadline Date: <%= @project.expected_target_date %>
+      Expected Deadline Date: <%= @project.expected_target_date.strftime("%d/%m/%Y") %>
     </p>
 
     <p>
       Project Users:<%@roles.each do|r|%>
         <br>
-        <%= r%>:
+        &nbsp&nbsp&nbsp&nbsp<%= r%>:
         <%@users_list[r].each do |user|%>
           <%=link_to user.username ,user_path(user)%>
         <%end%>

@@ -20,7 +20,7 @@
     <%@users.each do |user|%>
       <tr>
         <%if user.username!="Admin"%>
-          <td><%=user.username%></td>
+          <td><%=user.username.titleize%></td>
           <td><%=user.email%></td>
           <td><%=user.rolename%></td>
           <td><%= link_to 'Edit', edit_user_path(user) %></td>

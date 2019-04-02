@@ -1,5 +1,5 @@
 <!-- <h1>The list of projects</h1> -->
-<table class='table table-condensed'>
+<table class='table table-condensed table-hover'>
 	<thead>
 	<tr>
 		<th>Name</th>
@@ -14,10 +14,11 @@
 	</tr>
 	</thead>
 	<% @project.each do |project|%>
-	<tr>
-		<td><%=project.name%></td>
-		<td><%=project.start_date%></td>
-		<td><%=project.expected_target_date%></td>
+	<% table_class = (Time.now.to_date > project.expected_target_date) ? 'table-danger' : '' %>
+	<tr class="<%=table_class%>" >
+		<td><%=project.name.titleize%></td>
+		<td><%=project.start_date.strftime("%d/%m/%Y")%></td>
+		<td><%=project.expected_target_date.strftime("%d/%m/%Y")%></td>
 		<% if @role == "Management" || @role == "Top Management" %>
 	        <td><%= link_to 'Edit', edit_project_path(project) %></td>
 	        <td><%= link_to 'Destroy', project_path(project) , method: :delete , data:{confirm:"are you sure?"} %></td>

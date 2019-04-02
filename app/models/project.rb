@@ -14,7 +14,7 @@ class Project < ApplicationRecord
   validates :project_token, presence: true
   validates :client, presence: true
   validate :validate_end_date
-  validates :repos, length: {minimum: 1}
+  validates :repos, length: {minimum: 1, too_short: "should be present for the project"}
 
   scope :not_started, -> { where('start_date > ?', Time.now.to_date) }
   # default_scope { where('start_date > ?', Time.now.to_date)  }
